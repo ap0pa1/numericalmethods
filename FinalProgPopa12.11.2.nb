@@ -1,0 +1,943 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     43410,        935]
+NotebookOptionsPosition[     42952,        916]
+NotebookOutlinePosition[     43307,        932]
+CellTagsIndexPosition[     43264,        929]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Manipulate", "[", 
+   RowBox[{
+    RowBox[{"Show", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"ListPlot", "[", 
+        RowBox[{"arrayImages", "[", 
+         RowBox[{"[", "v", "]"}], "]"}], "]"}], "/.", 
+       RowBox[{
+        RowBox[{"Point", "[", "x_", "]"}], "\[RuleDelayed]", 
+        RowBox[{"{", 
+         RowBox[{"x", "/.", 
+          RowBox[{
+           RowBox[{"p", ":", 
+            RowBox[{"{", 
+             RowBox[{"_", ",", "_"}], "}"}]}], "\[RuleDelayed]", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"p", "[", 
+               RowBox[{"[", "1", "]"}], "]"}], "\[LessEqual]", "1"}], ",", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"PointSize", "[", "Large", "]"}], ",", 
+               RowBox[{"Point", "[", "p", "]"}]}], "}"}], ",", 
+             RowBox[{"Point", "[", "p", "]"}]}], "]"}]}]}], "}"}]}]}], ",", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"PlotRange", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", "10"}], ",", "10"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", "10"}], ",", "10"}], "}"}]}], "}"}]}], ",", 
+      RowBox[{"PlotStyle", "\[Rule]", 
+       RowBox[{"PointSize", "[", "Medium", "]"}]}], ",", 
+      RowBox[{"Frame", "\[Rule]", "True"}]}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"v", ",", "1", ",", 
+      RowBox[{"Length", "[", "arrayImages", "]"}], ",", "1", ",", 
+      RowBox[{"ImageSize", "\[Rule]", "Large"}], ",", 
+      RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}]}], "}"}], ",", 
+    RowBox[{"Initialization", "\[RuleDelayed]", 
+     RowBox[{"(", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"vtx", "=", "0"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"a0", "=", "1"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"vty", "=", "0"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"t", "=", "300"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"reps", "=", "500."}], ";", "\[IndentingNewLine]", 
+       RowBox[{"delt", "=", ".002"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"\[Mu]", "=", "1"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"\[Sigma]", "=", 
+        RowBox[{"Sqrt", "[", "delt", "]"}]}], ";", "\n", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "Create", " ", "constant", " ", "array", " ", "of", " ", "arrays", 
+         " ", "to", " ", "hold", " ", "position", " ", "of", " ", "each", " ",
+          "point", " ", "per", " ", "step"}], " ", "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{"arrayTotal", "=", 
+        RowBox[{"ConstantArray", "[", 
+         RowBox[{
+          RowBox[{"{", "}"}], ",", "30"}], "]"}]}], ";", "\n", 
+       RowBox[{"For", "[", 
+        RowBox[{
+         RowBox[{"k", "=", "1"}], ",", 
+         RowBox[{"k", "\[LessEqual]", "30"}], ",", 
+         RowBox[{"k", "++"}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"arrayTotal", "[", 
+            RowBox[{"[", "k", "]"}], "]"}], "=", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"RandomReal", "[", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"-", "9.99"}], ",", "9.99"}], "}"}], "]"}], ",", 
+               RowBox[{"RandomReal", "[", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"-", "9.99"}], ",", "9.99"}], "}"}], "]"}]}], "}"}],
+              ",", 
+             RowBox[{"{", 
+              RowBox[{"vtx", ",", "vty"}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"RandomInteger", 
+               RowBox[{"{", 
+                RowBox[{"1", ",", "10"}], "}"}]}], "}"}]}], "}"}]}], ";"}]}], 
+        " ", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+          RowBox[{
+          "did", " ", "not", " ", "utilize", " ", "the", " ", "random", " ", 
+           "integer"}], ",", " ", 
+          RowBox[{
+          "causes", " ", "the", " ", "code", " ", "to", " ", "not", " ", 
+           "run", " ", "properly"}], ",", " ", 
+          RowBox[{
+           RowBox[{
+           "but", " ", "the", " ", "idea", " ", "is", " ", "to", " ", "have", 
+            " ", "this", " ", "third", " ", "element", " ", "as", " ", "a", 
+            " ", "tag", " ", "and", " ", "to", " ", "account", " ", "for", 
+            " ", "how", " ", "many", " ", "combinations", " ", "occur"}], ";",
+            " ", 
+           RowBox[{
+           "if", " ", "there", " ", "have", " ", "already", " ", "been", " ", 
+            "3", " ", "combinations"}]}], ",", " ", 
+          RowBox[{
+          "then", " ", "no", " ", "more", " ", "should", " ", "occur"}], ",", 
+          " ", 
+          RowBox[{
+          "as", " ", "indicated", " ", "by", " ", "the", " ", "below", " ", 
+           "If", " ", 
+           RowBox[{"statements", "."}]}]}], " ", "*)"}], 
+        "\[IndentingNewLine]", "]"}], ";", "\n", 
+       RowBox[{"arrayCombine", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"Missing", "[", "]"}], ",", 
+            RowBox[{"Missing", "[", "]"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"Missing", "[", "]"}], ",", 
+            RowBox[{"Missing", "[", "]"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"Missing", "[", "]"}], "}"}]}], "}"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{" ", 
+            RowBox[{
+            "Initialize", " ", "variable", " ", "arrayImages", " ", "as", " ",
+              "starting", " ", "values", " ", "for", " ", "points", " ", "to",
+              " ", "be", " ", "used", " ", "in", " ", "loop", " ", "as", " ", 
+             "comparison", " ", "array", " ", "for", " ", "each", " ", 
+             "point", " ", "to", " ", "see", " ", "if", " ", "1"}], ")"}], 
+           " ", "out", " ", "of", " ", "bounds", " ", "and", " ", "2"}], 
+          ")"}], " ", "if", " ", "collision", " ", "warrants", " ", 
+         "combination", " ", "of", " ", "points"}], " ", "*)"}], "\n", 
+       RowBox[{"arrayImages", "=", 
+        RowBox[{"{", "arrayTotal", "}"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"For", "[", 
+        RowBox[{
+         RowBox[{"i", "=", "2"}], ",", 
+         RowBox[{"i", "\[LessEqual]", "200"}], ",", 
+         RowBox[{"i", "++"}], ",", " ", 
+         RowBox[{"(*", " ", 
+          RowBox[{
+           RowBox[{
+           "This", " ", "for", " ", "loop", " ", "is", " ", "the", " ", 
+            "number", " ", "of", " ", "iterations"}], ",", " ", 
+           RowBox[{
+           "so", " ", "we", " ", "will", " ", "get", " ", "x", " ", "amount", 
+            " ", "of", " ", 
+            RowBox[{"slides", "/", "plots"}]}]}], " ", "*)"}], 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"For", "[", 
+           RowBox[{
+            RowBox[{"j", "=", "1"}], ",", 
+            RowBox[{"j", "\[LessEqual]", "30"}], ",", 
+            RowBox[{"j", "++"}], ",", " ", 
+            RowBox[{"(*", " ", 
+             RowBox[{
+             "This", " ", "for", " ", "loop", " ", "is", " ", "to", " ", 
+              "create", " ", "the", " ", "necessary", " ", "number", " ", 
+              "of", " ", "particles"}], " ", "*)"}], "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"ToString", "[", 
+                 RowBox[{"arrayImages", "[", 
+                  RowBox[{"[", 
+                   RowBox[{
+                    RowBox[{"i", "-", "1"}], ",", "j"}], "]"}], "]"}], "]"}], 
+                "==", 
+                RowBox[{"ToString", "[", "arrayCombine", "]"}]}], ",", 
+               "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"arrayTotal", "[", 
+                 RowBox[{"[", "j", "]"}], "]"}], "=", "arrayCombine"}], ",", 
+               "\[IndentingNewLine]", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"arrayTotal", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"j", ",", "1", ",", "1"}], "]"}], "]"}], "=", 
+                 RowBox[{
+                  RowBox[{"arrayTotal", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"j", ",", "1", ",", "1"}], "]"}], "]"}], "+", 
+                  RowBox[{
+                   RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", ",", "2", ",", "1"}], "]"}], "]"}], "*", 
+                   "delt"}], "+", 
+                  RowBox[{"0.5", "*", "a0", "*", 
+                   RowBox[{"delt", "^", "2"}]}], "+", 
+                  RowBox[{"\[Mu]", "*", "delt"}], "+", 
+                  RowBox[{"\[Sigma]", "*", 
+                   RowBox[{"RandomVariate", "[", 
+                    RowBox[{"NormalDistribution", "[", "]"}], "]"}]}]}]}], 
+                ";", " ", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"arrayTotal", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"j", ",", "2", ",", "1"}], "]"}], "]"}], "=", 
+                 RowBox[{
+                  RowBox[{"arrayTotal", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"j", ",", "2", ",", "1"}], "]"}], "]"}], "+", 
+                  RowBox[{"delt", "*", "a0"}]}]}], ";", "\[IndentingNewLine]", 
+                RowBox[{"(*", " ", 
+                 RowBox[{
+                 "Assigning", " ", "x", " ", "coord", " ", "of", " ", "each", 
+                  " ", "point"}], " ", "*)"}], "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"arrayTotal", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"j", ",", "1", ",", "2"}], "]"}], "]"}], "=", 
+                 RowBox[{
+                  RowBox[{"arrayTotal", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"j", ",", "1", ",", "2"}], "]"}], "]"}], "+", 
+                  RowBox[{
+                   RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", ",", "2", ",", "2"}], "]"}], "]"}], "*", 
+                   "delt"}], "+", 
+                  RowBox[{"0.5", "*", "a0", "*", 
+                   RowBox[{"delt", "^", "2"}]}], "+", 
+                  RowBox[{"\[Mu]", "*", "delt"}], "+", 
+                  RowBox[{"\[Sigma]", "*", 
+                   RowBox[{"RandomVariate", "[", 
+                    RowBox[{"NormalDistribution", "[", "]"}], "]"}]}]}]}], 
+                ";", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"arrayTotal", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"j", ",", "2", ",", "2"}], "]"}], "]"}], "=", 
+                 RowBox[{
+                  RowBox[{"arrayTotal", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"j", ",", "2", ",", "2"}], "]"}], "]"}], "+", 
+                  RowBox[{"delt", "*", "a0"}]}]}], ";", "\[IndentingNewLine]",
+                 " ", 
+                RowBox[{"(*", " ", 
+                 RowBox[{
+                 "Assigning", " ", "y", " ", "coord", " ", "of", " ", "each", 
+                  " ", "point"}], " ", "*)"}], "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", ",", "1", ",", "1"}], "]"}], "]"}], ">", 
+                    "10"}], "||", " ", 
+                   RowBox[{
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", ",", "1", ",", "1"}], "]"}], "]"}], "<", 
+                    RowBox[{"-", "10"}]}]}], ",", " ", 
+                  RowBox[{"(*", " ", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "Checking", " ", "bounds", " ", "of", " ", "point"}], ";",
+                     " ", 
+                    RowBox[{"if", " ", "out", " ", "of", " ", "bounds"}]}], 
+                    ",", " ", 
+                    RowBox[{
+                    "look", " ", "at", " ", "most", " ", "recent", " ", 
+                    "value", " ", "in", " ", "arrayImages", " ", "and", " ", 
+                    "use", " ", "that", " ", "value"}], ",", " ", 
+                    RowBox[{
+                    "but", " ", "switch", " ", "the", " ", "velocity", " ", 
+                    "to", " ", "account", " ", "for", " ", "bouncing", " ", 
+                    "off", " ", "wall"}]}], " ", "*)"}], 
+                  "\[IndentingNewLine]", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", ",", "1", ",", "1"}], "]"}], "]"}], "=", 
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{
+                    RowBox[{"i", "-", "1"}], ",", "j", ",", "1", ",", "1"}], 
+                    "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", ",", "2", ",", "1"}], "]"}], "]"}], "=", 
+                    RowBox[{"-", 
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", ",", "2", ",", "1"}], "]"}], "]"}]}]}], 
+                   ";"}]}], "\[IndentingNewLine]", "]"}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", ",", "1", ",", "2"}], "]"}], "]"}], ">", 
+                    "10"}], "||", " ", 
+                   RowBox[{
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", ",", "1", ",", "2"}], "]"}], "]"}], "<", 
+                    RowBox[{"-", "10"}]}]}], ",", "\[IndentingNewLine]", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", ",", "1", ",", "2"}], "]"}], "]"}], "=", 
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{
+                    RowBox[{"i", "-", "1"}], ",", "j", ",", "1", ",", "2"}], 
+                    "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", ",", "2", ",", "2"}], "]"}], "]"}], "=", 
+                    RowBox[{"-", 
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", ",", "2", ",", "2"}], "]"}], "]"}]}]}], 
+                   ";"}]}], "\[IndentingNewLine]", "]"}], ";"}]}], 
+              "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}], ";"}]}], 
+           "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"AppendTo", "[", 
+           RowBox[{"arrayImages", ",", "arrayTotal"}], "]"}], ";", 
+          "\[IndentingNewLine]", " ", 
+          RowBox[{"(*", " ", 
+           RowBox[{
+            RowBox[{
+            "So", " ", "arrayTotal", " ", "stores", " ", "the", " ", "point", 
+             " ", "at", " ", "each", " ", "step"}], ",", " ", 
+            RowBox[{
+            "while", " ", "arrayImages", " ", "holds", " ", "all", " ", 
+             "history"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+          "\[IndentingNewLine]", 
+          RowBox[{"For", "[", 
+           RowBox[{
+            RowBox[{"k", "=", "1"}], ",", 
+            RowBox[{"k", "\[LessEqual]", 
+             RowBox[{
+              RowBox[{"Length", "[", "arrayTotal", "]"}], "-", "1"}]}], ",", 
+            RowBox[{"k", "++"}], ",", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"For", "[", 
+              RowBox[{
+               RowBox[{"m", "=", 
+                RowBox[{"k", "+", "1"}]}], ",", 
+               RowBox[{"m", "\[LessEqual]", 
+                RowBox[{"Length", "[", "arrayTotal", "]"}]}], ",", 
+               RowBox[{"m", "++"}], ",", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"ToString", "[", 
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "m"}], "]"}], "]"}], "]"}], "\[Equal]", 
+                   
+                   RowBox[{"ToString", "[", "arrayCombine", "]"}]}], ",", 
+                  "\[IndentingNewLine]", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "m"}], "]"}], "]"}], "=", 
+                    "arrayCombine"}], ";", "\[IndentingNewLine]", 
+                   RowBox[{"Continue", "[", "]"}]}]}], "\[IndentingNewLine]", 
+                 "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"Length", "[", 
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "3"}], "]"}], "]"}], "]"}], 
+                   "<", "4"}], ",", "\[IndentingNewLine]", 
+                  RowBox[{
+                   RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"EuclideanDistance", "[", 
+                    RowBox[{
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "1", ",", "1"}], "]"}], "]"}],
+                     ",", 
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"m", ",", "1", ",", "1"}], "]"}], "]"}]}], "]"}], 
+                    " ", "<", " ", "0.1"}], "&&", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"EuclideanDistance", "[", 
+                    RowBox[{
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "1", ",", "2"}], "]"}], "]"}],
+                     ",", 
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"m", ",", "1", ",", "2"}], "]"}], "]"}]}], "]"}], 
+                    " ", "<", " ", "0.1"}], "&&", 
+                    RowBox[{
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "3", ",", "1"}], "]"}], "]"}],
+                     "\[Equal]", 
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"m", ",", "3", ",", "1"}], "]"}], "]"}]}]}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "1"}], "]"}], "]"}], "=", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"m", ",", "1"}], "]"}], "]"}], "+", 
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "1"}], "]"}], "]"}]}], ")"}], 
+                    "/", "2"}]}], ";", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "2"}], "]"}], "]"}], "=", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"m", ",", "2"}], "]"}], "]"}], "+", 
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "2"}], "]"}], "]"}]}], ")"}], 
+                    "/", "2"}]}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "3"}], "]"}], "]"}], ",", 
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"m", ",", "3", ",", "1"}], "]"}], "]"}]}], "]"}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "m"}], "]"}], "]"}], "=", 
+                    "arrayCombine"}], ";"}]}], "\[IndentingNewLine]", 
+                    "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+                   
+                   RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"EuclideanDistance", "[", 
+                    RowBox[{
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "1", ",", "1"}], "]"}], "]"}],
+                     ",", 
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"m", ",", "1", ",", "1"}], "]"}], "]"}]}], "]"}], 
+                    " ", "<", " ", "0.3"}], " ", "&&", "\[IndentingNewLine]", 
+                    
+                    RowBox[{
+                    RowBox[{"EuclideanDistance", "[", 
+                    RowBox[{
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "1", ",", "2"}], "]"}], "]"}],
+                     ",", 
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"m", ",", "1", ",", "2"}], "]"}], "]"}]}], "]"}], 
+                    " ", "<", " ", "0.3"}], "&&", " ", "\[IndentingNewLine]", 
+                    
+                    RowBox[{
+                    RowBox[{"EuclideanDistance", "[", 
+                    RowBox[{
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "1", ",", "1"}], "]"}], "]"}],
+                     ",", 
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"m", ",", "1", ",", "1"}], "]"}], "]"}]}], "]"}], 
+                    " ", ">", " ", "0.1"}], " ", "&&", "\[IndentingNewLine]", 
+                    
+                    RowBox[{
+                    RowBox[{"EuclideanDistance", "[", 
+                    RowBox[{
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "1", ",", "2"}], "]"}], "]"}],
+                     ",", 
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"m", ",", "1", ",", "2"}], "]"}], "]"}]}], "]"}], 
+                    " ", ">", " ", "0.1"}]}], ",", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "2"}], "]"}], "]"}], "=", 
+                    RowBox[{"-", 
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "2"}], "]"}], "]"}]}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "1"}], "]"}], "]"}], "=", 
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{
+                    RowBox[{"i", "-", "1"}], ",", "k", ",", "1"}], "]"}], 
+                    "]"}]}], ";"}]}], "\[IndentingNewLine]", "]"}], ";"}]}], 
+                 "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"Length", "[", 
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "3"}], "]"}], "]"}], "]"}], 
+                    "\[GreaterEqual]", "4"}], "&&", 
+                   RowBox[{
+                    RowBox[{"EuclideanDistance", "[", 
+                    RowBox[{
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "1", ",", "1"}], "]"}], "]"}],
+                     ",", 
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"m", ",", "1", ",", "1"}], "]"}], "]"}]}], "]"}], 
+                    " ", "<", " ", "0.1"}], "&&", "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"EuclideanDistance", "[", 
+                    RowBox[{
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "1", ",", "2"}], "]"}], "]"}],
+                     ",", 
+                    RowBox[{"arrayTotal", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"m", ",", "1", ",", "2"}], "]"}], "]"}]}], "]"}], 
+                    " ", "<", " ", "0.1"}]}], ",", "\[IndentingNewLine]", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "2"}], "]"}], "]"}], "=", 
+                    RowBox[{"-", 
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "2"}], "]"}], "]"}]}]}], ";", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "k", ",", "1"}], "]"}], "]"}], "=", 
+                    RowBox[{"arrayImages", "[", 
+                    RowBox[{"[", 
+                    RowBox[{
+                    RowBox[{"i", "-", "1"}], ",", "k", ",", "1"}], "]"}], 
+                    "]"}]}], ";"}]}], "\[IndentingNewLine]", "]"}], ";"}]}], 
+              "\[IndentingNewLine]", "]"}], ";"}]}], "\[IndentingNewLine]", 
+           "\[IndentingNewLine]", "]"}], ";"}]}], "\[IndentingNewLine]", 
+        "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"For", "[", 
+        RowBox[{
+         RowBox[{"i", "=", "1"}], ",", 
+         RowBox[{"i", "\[LessEqual]", 
+          RowBox[{"Length", "[", "arrayImages", "]"}]}], ",", 
+         RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"For", "[", 
+           RowBox[{
+            RowBox[{"j", "=", "1"}], ",", 
+            RowBox[{"j", "\[LessEqual]", 
+             RowBox[{"Length", "[", 
+              RowBox[{"arrayImages", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], "]"}]}], ",", 
+            RowBox[{"j", "++"}], ",", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"arrayImages", "[", 
+               RowBox[{"[", 
+                RowBox[{"i", ",", "j"}], "]"}], "]"}], "=", 
+              RowBox[{"Drop", "[", 
+               RowBox[{"arrayImages", "[", 
+                RowBox[{"[", 
+                 RowBox[{"i", ",", "j", ",", "1"}], "]"}], "]"}], "]"}]}], 
+             ";"}]}], "\[IndentingNewLine]", "]"}], ";"}]}], 
+        "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", ")"}]}], 
+    ",", 
+    RowBox[{"SynchronousInitialization", "\[Rule]", "False"}]}], "]"}], " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"SynchronousInitialization", "\[Rule]", 
+     RowBox[{
+     "False", " ", "allows", " ", "for", " ", "more", " ", "iterations"}]}], 
+    ",", " ", 
+    RowBox[{"see", " ", "description"}]}], " ", "*)"}]}]], "Input",
+ CellChangeTimes->{{3.722008064704111*^9, 3.722008148728112*^9}, {
+   3.722008367907452*^9, 3.722008369250731*^9}, {3.7220084185220337`*^9, 
+   3.722008475524027*^9}, {3.7220086373067913`*^9, 3.722008684383555*^9}, {
+   3.722016287913212*^9, 3.722016297246818*^9}, {3.722546427812792*^9, 
+   3.722546459552541*^9}, {3.722550739022307*^9, 3.722550749743861*^9}, {
+   3.722761301357112*^9, 3.7227613346783752`*^9}, {3.722761455002968*^9, 
+   3.722761472103834*^9}, 3.722773290899626*^9, 3.722773999530444*^9, {
+   3.722778470959094*^9, 3.7227784752061663`*^9}, {3.722778573005073*^9, 
+   3.7227786139633417`*^9}, 3.7227788343261137`*^9, {3.7227788760159597`*^9, 
+   3.72277891563617*^9}, {3.722778967837936*^9, 3.722779036413241*^9}, {
+   3.722779087333747*^9, 3.722779228617792*^9}, {3.722779259752122*^9, 
+   3.72277935724981*^9}, {3.722779585782927*^9, 3.7227795870539703`*^9}, {
+   3.722779719862414*^9, 3.722779720776162*^9}, {3.7227797568935833`*^9, 
+   3.722779783756987*^9}, {3.7227798786197853`*^9, 3.722779930683455*^9}, {
+   3.722780288871236*^9, 3.7227802904332237`*^9}, {3.722780571991603*^9, 
+   3.722780577469091*^9}, {3.7227806794770737`*^9, 3.722780682269391*^9}, {
+   3.72278092247952*^9, 3.7227809292029457`*^9}, {3.722780980452634*^9, 
+   3.722780990146171*^9}, {3.722781056369996*^9, 3.722781083956587*^9}, {
+   3.7227811180703697`*^9, 3.722781118899528*^9}, {3.722792492457365*^9, 
+   3.7227925521053543`*^9}, {3.7227926270517406`*^9, 
+   3.7227927160367947`*^9}, {3.722792819037243*^9, 3.722792821036417*^9}, {
+   3.722792922477192*^9, 3.722792922955608*^9}, {3.722792985295171*^9, 
+   3.722792993003269*^9}, {3.722793108502335*^9, 3.7227931559154043`*^9}, {
+   3.722793187683494*^9, 3.7227931968080387`*^9}, {3.722793294315894*^9, 
+   3.722793305321416*^9}, {3.722793445370915*^9, 3.722793455593313*^9}, {
+   3.722793494661449*^9, 3.722793496992085*^9}, {3.72279365840287*^9, 
+   3.722793673103509*^9}, {3.7227938710969343`*^9, 3.722793957705002*^9}, {
+   3.722794014466625*^9, 3.722794018725749*^9}, {3.722794669339438*^9, 
+   3.7227946724598923`*^9}, {3.72279491073909*^9, 3.72279491380872*^9}, {
+   3.7227952998698463`*^9, 3.7227953551407547`*^9}, {3.7227954640445433`*^9, 
+   3.722795466042749*^9}, {3.7227955630970984`*^9, 3.722795568018949*^9}, {
+   3.722795603880946*^9, 3.7227956039985037`*^9}, {3.722795687594903*^9, 
+   3.722795703268326*^9}, {3.722795785292993*^9, 3.722795787404607*^9}, {
+   3.722795837858384*^9, 3.722795837982339*^9}, {3.722795880780713*^9, 
+   3.722795882876128*^9}, {3.722796037786586*^9, 
+   3.722796144680942*^9}},ExpressionUUID->"963893ab-a6e3-4d11-866b-\
+cfea52f13a27"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`v$$ = 1, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`v$$], 1, 200, 1}}, Typeset`size$$ = Automatic, 
+    Typeset`update$$ = 0, Typeset`initDone$$, Typeset`skipInitDone$$ = 
+    False, $CellContext`v$148156$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {$CellContext`v$$ = 1}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`v$$, $CellContext`v$148156$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Show[
+        ReplaceAll[
+         ListPlot[
+          Part[$CellContext`arrayImages, $CellContext`v$$]], Point[
+           Pattern[$CellContext`x, 
+            Blank[]]] :> {
+           ReplaceAll[$CellContext`x, Pattern[$CellContext`p, {
+               Blank[], 
+               Blank[]}] :> If[Part[$CellContext`p, 1] <= 1, {
+               PointSize[Large], 
+               Point[$CellContext`p]}, 
+              Point[$CellContext`p]]]}], PlotRange -> {{-10, 10}, {-10, 10}}, 
+        PlotStyle -> PointSize[Medium], Frame -> True], 
+      "Specifications" :> {{$CellContext`v$$, 1, 200, 1, ImageSize -> Large, 
+         Appearance -> "Labeled"}}, 
+      "Options" :> {SynchronousInitialization -> False}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{485., {156., 162.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    Initialization:>(($CellContext`vtx = 0; $CellContext`a0 = 
+       1; $CellContext`vty = 0; $CellContext`t = 300; $CellContext`reps = 
+       500.; $CellContext`delt = 0.002; $CellContext`\[Mu] = 
+       1; $CellContext`\[Sigma] = 
+       Sqrt[$CellContext`delt]; $CellContext`arrayTotal = 
+       ConstantArray[{}, 30]; For[$CellContext`k = 1, $CellContext`k <= 30, 
+        Increment[$CellContext`k], 
+        Part[$CellContext`arrayTotal, $CellContext`k] = {{
+            RandomReal[{-9.99, 9.99}], 
+            
+            RandomReal[{-9.99, 
+             9.99}]}, {$CellContext`vtx, $CellContext`vty}, {
+           RandomInteger {1, 10}}}; Null]; $CellContext`arrayCombine = {{
+          Missing[], 
+          Missing[]}, {
+          Missing[], 
+          Missing[]}, {
+          Missing[]}}; $CellContext`arrayImages = {$CellContext`arrayTotal}; 
+      For[$CellContext`i = 2, $CellContext`i <= 200, 
+        Increment[$CellContext`i], 
+        For[$CellContext`j = 1, $CellContext`j <= 30, 
+          Increment[$CellContext`j], If[ToString[
+              
+              Part[$CellContext`arrayImages, $CellContext`i - 
+               1, $CellContext`j]] == ToString[$CellContext`arrayCombine], 
+            Part[$CellContext`arrayTotal, $CellContext`j] = \
+$CellContext`arrayCombine, 
+            Part[$CellContext`arrayTotal, $CellContext`j, 1, 1] = 
+             Part[$CellContext`arrayTotal, $CellContext`j, 1, 1] + 
+              Part[$CellContext`arrayTotal, $CellContext`j, 2, 
+                 1] $CellContext`delt + 
+              0.5 $CellContext`a0 $CellContext`delt^2 + $CellContext`\[Mu] \
+$CellContext`delt + $CellContext`\[Sigma] RandomVariate[
+                 NormalDistribution[]]; 
+            Part[$CellContext`arrayTotal, $CellContext`j, 2, 1] = 
+             Part[$CellContext`arrayTotal, $CellContext`j, 2, 
+                1] + $CellContext`delt $CellContext`a0; 
+            Part[$CellContext`arrayTotal, $CellContext`j, 1, 2] = 
+             Part[$CellContext`arrayTotal, $CellContext`j, 1, 2] + 
+              Part[$CellContext`arrayTotal, $CellContext`j, 2, 
+                 2] $CellContext`delt + 
+              0.5 $CellContext`a0 $CellContext`delt^2 + $CellContext`\[Mu] \
+$CellContext`delt + $CellContext`\[Sigma] RandomVariate[
+                 NormalDistribution[]]; 
+            Part[$CellContext`arrayTotal, $CellContext`j, 2, 2] = 
+             Part[$CellContext`arrayTotal, $CellContext`j, 2, 
+                2] + $CellContext`delt $CellContext`a0; If[
+              Or[
+              Part[$CellContext`arrayTotal, $CellContext`j, 1, 1] > 10, 
+               Part[$CellContext`arrayTotal, $CellContext`j, 1, 1] < -10], 
+              Part[$CellContext`arrayTotal, $CellContext`j, 1, 1] = 
+               Part[$CellContext`arrayImages, $CellContext`i - 
+                 1, $CellContext`j, 1, 1]; 
+              Part[$CellContext`arrayTotal, $CellContext`j, 2, 1] = -
+                Part[$CellContext`arrayTotal, $CellContext`j, 2, 1]; Null]; If[
+              Or[
+              Part[$CellContext`arrayTotal, $CellContext`j, 1, 2] > 10, 
+               Part[$CellContext`arrayTotal, $CellContext`j, 1, 2] < -10], 
+              Part[$CellContext`arrayTotal, $CellContext`j, 1, 2] = 
+               Part[$CellContext`arrayImages, $CellContext`i - 
+                 1, $CellContext`j, 1, 2]; 
+              Part[$CellContext`arrayTotal, $CellContext`j, 2, 2] = -
+                Part[$CellContext`arrayTotal, $CellContext`j, 2, 2]; Null]; 
+            Null]; Null]; 
+        AppendTo[$CellContext`arrayImages, $CellContext`arrayTotal]; 
+        For[$CellContext`k = 1, $CellContext`k <= 
+          Length[$CellContext`arrayTotal] - 1, 
+          Increment[$CellContext`k], 
+          For[$CellContext`m = $CellContext`k + 1, $CellContext`m <= 
+            Length[$CellContext`arrayTotal], 
+            Increment[$CellContext`m], If[ToString[
+                
+                Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`m]] == ToString[$CellContext`arrayCombine], 
+              Part[$CellContext`arrayImages, $CellContext`i, $CellContext`m] = \
+$CellContext`arrayCombine; Continue[]]; If[Length[
+                
+                Part[$CellContext`arrayImages, $CellContext`i, $CellContext`k,
+                  3]] < 4, If[
+                And[EuclideanDistance[
+                   
+                   Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`k, 1, 1], 
+                   Part[$CellContext`arrayTotal, $CellContext`m, 1, 1]] < 0.1,
+                  EuclideanDistance[
+                   
+                   Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`k, 1, 2], 
+                   Part[$CellContext`arrayTotal, $CellContext`m, 1, 2]] < 0.1,
+                  
+                 Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`k, 3, 1] == Part[$CellContext`arrayTotal, $CellContext`m, 3, 1]],
+                 Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`k, 1] = (Part[$CellContext`arrayTotal, $CellContext`m, 1] + 
+                   Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`k, 1])/2; 
+                Part[$CellContext`arrayImages, $CellContext`i, $CellContext`k,
+                    2] = (Part[$CellContext`arrayTotal, $CellContext`m, 2] + 
+                   Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`k, 2])/2; AppendTo[
+                  
+                  Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`k, 3], 
+                  Part[$CellContext`arrayTotal, $CellContext`m, 3, 1]]; 
+                Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`m] = $CellContext`arrayCombine; Null]; If[
+                And[EuclideanDistance[
+                   
+                   Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`k, 1, 1], 
+                   Part[$CellContext`arrayTotal, $CellContext`m, 1, 1]] < 0.3,
+                  EuclideanDistance[
+                   
+                   Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`k, 1, 2], 
+                   Part[$CellContext`arrayTotal, $CellContext`m, 1, 2]] < 0.3,
+                  EuclideanDistance[
+                   
+                   Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`k, 1, 1], 
+                   Part[$CellContext`arrayTotal, $CellContext`m, 1, 1]] > 0.1,
+                  EuclideanDistance[
+                   
+                   Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`k, 1, 2], 
+                   Part[$CellContext`arrayTotal, $CellContext`m, 1, 2]] > 
+                 0.1], Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`k, 2] = -
+                  Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`k, 2]; 
+                Part[$CellContext`arrayImages, $CellContext`i, $CellContext`k,
+                    1] = Part[$CellContext`arrayImages, $CellContext`i - 
+                   1, $CellContext`k, 1]; Null]; Null]; If[
+              And[Length[
+                 
+                 Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`k, 3]] >= 4, EuclideanDistance[
+                 
+                 Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`k, 1, 1], 
+                 Part[$CellContext`arrayTotal, $CellContext`m, 1, 1]] < 0.1, 
+               EuclideanDistance[
+                 
+                 Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`k, 1, 2], 
+                 Part[$CellContext`arrayTotal, $CellContext`m, 1, 2]] < 0.1], 
+              Part[$CellContext`arrayImages, $CellContext`i, $CellContext`k, 
+                 2] = -Part[$CellContext`arrayImages, $CellContext`i, \
+$CellContext`k, 2]; 
+              Part[$CellContext`arrayImages, $CellContext`i, $CellContext`k, 
+                 1] = Part[$CellContext`arrayImages, $CellContext`i - 
+                 1, $CellContext`k, 1]; Null]; Null]; Null]; Null]; 
+      For[$CellContext`i = 1, $CellContext`i <= 
+        Length[$CellContext`arrayImages], 
+        Increment[$CellContext`i], 
+        For[$CellContext`j = 1, $CellContext`j <= Length[
+            Part[$CellContext`arrayImages, $CellContext`i]], 
+          Increment[$CellContext`j], 
+          Part[$CellContext`arrayImages, $CellContext`i, $CellContext`j] = 
+           Drop[
+             
+             Part[$CellContext`arrayImages, $CellContext`i, $CellContext`j, 
+              1]]; Null]; Null]; Null); Typeset`initDone$$ = True),
+    SynchronousInitialization->False,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{3.722795704546324*^9, 3.722795791907695*^9, 
+  3.722795838998067*^9, 3.7227958841984367`*^9, 
+  3.722795921264429*^9},ExpressionUUID->"4cb7c05e-5dd6-406c-81d4-\
+ba46268df6f5"]
+}, Open  ]]
+},
+WindowSize->{808, 755},
+WindowMargins->{{20, Automatic}, {39, Automatic}},
+FrontEndVersion->"11.1 for Mac OS X x86 (32-bit, 64-bit Kernel) (April 27, \
+2017)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 31542, 677, 2280, "Input", "ExpressionUUID" -> \
+"963893ab-a6e3-4d11-866b-cfea52f13a27"],
+Cell[32125, 701, 10811, 212, 335, "Output", "ExpressionUUID" -> \
+"4cb7c05e-5dd6-406c-81d4-ba46268df6f5"]
+}, Open  ]]
+}
+]
+*)
+
